@@ -135,7 +135,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Sidebar for navigation
-page = st.sidebar.radio("📍 Navigation", ["🎫 Process Tickets", "📋 View Tickets", "📊 View Stats", "📈 Drift Dashboard", "🔄 Feedback History"])
+page = st.sidebar.radio("📍 Navigation", ["🎫 Process Tickets", "📋 View Tickets", "📊 View Stats", "📈 Drift Dashboard", "🔄 Feedback History", "🔗 Causal Loop"])
 
 
 
@@ -486,6 +486,299 @@ try:
                 st.error("Error fetching stats")
         except Exception as e:
             st.error(f"Error: {str(e)}")
+
+    elif page == "🔗 Causal Loop":
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2em; border-radius: 12px; color: white; margin-bottom: 2em;">
+            <h2 style="color: white; border: none; margin-top: 0;">🔗 System Causal Loop Diagram</h2>
+            <p>Understanding how feedback signals close the quality improvement loop</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Create tabs for different views
+        tab1, tab2, tab3 = st.tabs(["📊 Main Diagram", "🔄 Feedback Flow", "📚 Key Insights"])
+        
+        with tab1:
+            st.subheader("Quality Feedback Loop System")
+            st.markdown("""
+### System Dynamics Overview
+
+This diagram shows how feedback signals close the loop on quality and continuous improvement in the support triage system.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        QUALITY FEEDBACK LOOP SYSTEM                              │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+
+                           ┌──────────────────────┐
+                           │   NEW TICKET ARRIVES │
+                           └──────────┬───────────┘
+                                      │
+                                      ▼
+                    ┌─────────────────────────────────┐
+                    │  CLASSIFIER EVALUATES TICKET    │
+                    │  (Rule-based with keywords)     │
+                    └──────────────┬──────────────────┘
+                                   │
+                    ┌──────────────▼──────────────┐
+                    │  CONFIDENCE SCORE ASSIGNED  │  ◄──────┐
+                    │  (0.0 - 1.0)                │         │
+                    └──────────────┬──────────────┘         │
+                                   │                        │
+                    ┌──────────────▼──────────────┐         │
+                    │  RAG RETRIEVES KNOWLEDGE    │         │
+                    │  BASE ARTICLES              │         │
+                    └──────────────┬──────────────┘         │
+                                   │                        │
+                    ┌──────────────▼──────────────┐         │
+                    │  TONE-MATCHED RESPONSE      │         │
+                    │  GENERATION                 │         │
+                    └──────────────┬──────────────┘         │
+                                   │                        │
+                    ┌──────────────▼──────────────┐         │
+                    │  RAGAS QUALITY SCORING      │         │
+                    │  (Faithfulness,Relevance)   │         │
+                    └──────────────┬──────────────┘         │
+                                   │                        │
+                    ┌──────────────▼──────────────┐         │
+                    │  CONFIDENCE ROUTING DECISION│         │
+                    │  - AUTO_SEND                │         │
+                    │  - REVIEW                   │         │
+                    │  - ESCALATE                 │         │
+                    └──────────────┬──────────────┘         │
+                                   │                        │
+                ┌──────────────────┼──────────────────┐     │
+                │                  │                  │     │
+                ▼                  ▼                  ▼     │
+        ┌────────────────┐  ┌────────────────┐ ┌─────────┐ │
+        │ AUTO-SENT TO   │  │  HUMAN REVIEW  │ │ESCALATED│ │
+        │ CUSTOMER       │  │   BY AGENT     │ │  TO VIP │ │
+        │ (ROUTING=AUTO) │  │(ROUTING=REVIEW)│ │ SUPPORT │ │
+        └────────┬───────┘  └────────┬───────┘ └────┬────┘ │
+                 │                  │                │      │
+                 │                  │     ┌─────────┘      │
+                 │                  │     │                │
+                 ▼                  ▼     ▼                │
+        ┌────────────────────────────────────┐              │
+        │  AGENT PROVIDES FEEDBACK           │              │
+        │  ✓ ACCEPTED - Response was perfect │              │
+        │  ✎ EDITED - Agent improved it      │              │
+        │  ✗ REJECTED - Response was wrong   │              │
+        └────────────────┬───────────────────┘              │
+                         │                                   │
+          ┌──────────────┼──────────────┐                   │
+          │              │              │                   │
+          ▼              ▼              ▼                   │
+    [ACCEPTED]     [EDITED]         [REJECTED]             │
+          │              │              │                   │
+          │         ┌─────┴────┐        │                   │
+          │         │          │        │                   │
+          ▼         ▼          ▼        ▼                   │
+    ┌─────────────────────────────────────┐                │
+    │ FMEA FAILURE DETECTION              │                │
+    │ (If Conf≥0.75 & (Edited|Rejected))  │                │
+    │ → Log high-confidence failures      │                │
+    └──────────────┬──────────────────────┘                │
+                   │                                        │
+                   ▼                                        │
+    ┌──────────────────────────────────────┐              │
+    │ QUALITY METRICS UPDATED              │              │
+    │ - Acceptance rate by confidence      │              │
+    │ - Rejection rate by category         │              │
+    │ - Edit patterns by tone              │              │
+    │ - RAGAS correlation                  │              │
+    └──────────────┬───────────────────────┘              │
+                   │                                       │
+                   ▼                                       │
+    ┌──────────────────────────────────────┐             │
+    │ CALIBRATION ANALYSIS DETECTS ISSUES  │             │
+    │ - Over-confident ranges              │             │
+    │ - Under-confident ranges             │             │
+    │ - Quality-confidence correlation     │             │
+    └──────────────┬───────────────────────┘             │
+                   │                                      │
+          ┌────────┴───────────┐                         │
+          │                    │                         │
+          ▼                    ▼                         │
+    [OVER-CONFIDENT]    [UNDER-CONFIDENT]               │
+          │                    │                         │
+          ▼                    ▼                         │
+    - Lower            - Raise routing                   │
+      confidence         thresholds                      │
+      thresholds    - Auto-send more                     │
+    - More human          responses                      │
+      reviews        - Trust confidence                  │
+    - Improve           more                            │
+      classifier                                         │
+          │                    │                         │
+          └────────┬───────────┘                         │
+                   │                                     │
+                   ▼                                     │
+    ┌──────────────────────────────────────┐            │
+    │ TRUST ARCHITECTURE ADJUSTED           │            │
+    │ (tunable_config.json)                │            │
+    │ - Confidence thresholds updated      │            │
+    │ - Quality gates modified              │            │
+    │ - Routing policies refined            │            │
+    │ - Auto-send % adjusted                │            │
+    └──────────────┬───────────────────────┘            │
+                   │                                     │
+                   │  ◄─────────────────────────────────┘
+                   │  (Loop closes: Next batch uses improved thresholds)
+                   │
+                   ▼
+    ┌──────────────────────────────────────┐
+    │ IMPROVED PERFORMANCE METRICS         │
+    │ - Higher acceptance rate             │
+    │ - Fewer escalations                  │
+    │ - Better customer satisfaction       │
+    │ - Smarter routing decisions          │
+    └──────────────────────────────────────┘
+```
+            """)
+        
+        with tab2:
+            st.subheader("Feedback Data Flow")
+            st.markdown("""
+```
+┌─────────────────────────────────────┐
+│ Agent Feedback                      │
+└────────────────┬────────────────────┘
+                 │
+      ┌──────────┼──────────┐
+      │          │          │
+      ▼          ▼          ▼
+  Accepted    Edited     Rejected
+      │          │          │
+      └──────────┼──────────┘
+                 │
+      ┌──────────▼──────────┐
+      │ Store in feedback.  │
+      │ json with:          │
+      │ - ticket_id         │
+      │ - feedback_type     │
+      │ - original_response │
+      │ - final_response    │
+      │ - timestamp         │
+      └──────────┬──────────┘
+                 │
+      ┌──────────▼──────────┐
+      │ Trigger FMEA        │
+      │ Analysis if:        │
+      │ conf ≥ 0.75 &&      │
+      │ (edited|rejected)   │
+      └──────────┬──────────┘
+                 │
+      ┌──────────▼──────────┐
+      │ Update Metrics:     │
+      │ - Confidence bucket │
+      │ - Category accuracy │
+      │ - Tone effectiveness│
+      │ - Quality score     │
+      └──────────┬──────────┘
+                 │
+      ┌──────────▼──────────┐
+      │ Recalculate         │
+      │ Calibration Curve   │
+      └──────────┬──────────┘
+                 │
+      ┌──────────▼──────────┐
+      │ Generate            │
+      │ Recommendations:    │
+      │ - Threshold changes │
+      │ - Process improvements
+      │ - Training focus    │
+      └──────────┬──────────┘
+                 │
+      ┌──────────▼──────────┐
+      │ Apply Changes to    │
+      │ trust_config.json   │
+      │ (Automatic or       │
+      │  Manual approval)   │
+      └──────────┬──────────┘
+                 │
+      ┌──────────▼──────────┐
+      │ Next Batch Uses     │
+      │ Improved Thresholds │
+      │ (Loop Closes!)      │
+      └─────────────────────┘
+```
+
+**Key Signals:**
+
+| Feedback | Signal | Action | Weight |
+|----------|--------|--------|--------|
+| ✓ ACCEPTED | Classifier/Generator working well | Maintain/increase confidence | +1.0 |
+| ✎ EDITED | Close but not perfect | Review templates, tone matching | +0.5 |
+| ✗ REJECTED | Major failure | Lower confidence, escalate similar | -1.0 |
+            """)
+        
+        with tab3:
+            st.subheader("Key Insights & Equilibrium")
+            st.markdown("""
+### Reinforcing Loops (Positive Feedback)
+
+**Loop 1: Quality Virtuous Cycle**
+- Better Quality → More Accepted → Higher Confidence Warranted
+- → Better Calibration → Better Routing → Better Quality
+
+**Loop 2: Learning Feedback**
+- More Feedback Data → Better Calibration → Better Thresholds
+- → More Aligned Routing → Better Feedback Quality
+
+### Balancing Loops (Corrective)
+
+**Loop 1: Over-Confidence Correction**
+- Over-Confident → High Rejections → Lower Thresholds
+- → More Review Required → Fewer False Auto-Sends
+
+**Loop 2: Under-Confidence Correction**
+- Under-Confident → Low Rejections → Raise Thresholds
+- → More Auto-Sends → Optimal Throughput
+
+### System Equilibrium Point
+
+The system naturally settles to:
+- ✓ **Acceptance Rate**: 75-85% for high-confidence responses
+- ✎ **Edit Rate**: 5-10% (close misses)
+- ✗ **Rejection Rate**: 5-10% (failures caught before customer)
+- ↑ **Escalation Rate**: 10-15% (uncertain cases handled by humans)
+- ◆ **Auto-Send Rate**: 60-70% (balancing speed and safety)
+
+### Key Properties
+
+| Property | Characteristic |
+|----------|---|
+| Stability | Stable with proper dampening |
+| Response Time | Fast for immediate feedback, slower for trends |
+| Learning | Continuous, incremental, data-driven |
+| Robustness | Multiple feedback channels reduce failure |
+| Transparency | All decisions logged and explainable |
+
+### Real Example: How One Feedback Closes the Loop
+
+**Scenario: Mid-confidence billing response gets rejected**
+
+1. **9:15 AM** - Ticket arrives (Subject: "Double billing issue", Confidence: 0.72)
+2. **9:15:30 AM** - Routing decision: REVIEW (confidence in MEDIUM band)
+3. **9:20 AM** - Agent reviews and REJECTS (response doesn't address refund)
+4. **9:20:30 AM** - Feedback recorded in feedback.json
+5. **9:21 AM** - Batch calibration detects: Billing category 0.65-0.75 confidence has 20% rejection (expected: 70%)
+6. **9:22 AM** - Recommendation: Lower confidence for billing from 0.72 → 0.65
+7. **9:25 AM** - Config updated (future billing tickets use new threshold)
+8. **9:30 AM** - Next similar ticket routes to REVIEW (not AUTO) → Better outcome
+
+**Loop Time**: ~15 minutes | **Impact**: Prevents similar failures in future billing tickets
+
+### System Benefits
+
+✅ **No Batch Retraining** - Real-time threshold adjustments  
+✅ **Explainability** - Know WHY each ticket routes where  
+✅ **Self-Correcting** - Over-confidence automatically triggers review  
+✅ **Scale** - Learn from 1000s of tickets/week  
+✅ **No Divergence** - Calibration loop prevents failures  
+            """)
 
 except Exception as e:
     st.error(f"Application Error: {str(e)}")
