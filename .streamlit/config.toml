@@ -1,0 +1,9 @@
+[client]
+showErrorDetails = true
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false
+
+[logger]
+level = "error"

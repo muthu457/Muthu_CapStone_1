@@ -1,0 +1,49 @@
+================================================================================
+AUTO-DRAFT PERFORMANCE REPORT
+================================================================================
+
+Analysis Timestamp: 2026-06-10T12:02:13.553475
+Total Tickets Analyzed: 60
+
+GOAL 1: AUTO-DRAFT RATE (≥50% of repetitive tickets)
+--------------------------------------------------------------------------------
+  Repetitive Tickets: 59
+  Auto-Drafted: 40
+  Auto-Draft Rate: 67.8%
+  Goal: 50%
+  Status: ✓ GOAL MET
+
+GOAL 2: ACCEPTANCE RATE (≥80% of auto-drafted)
+--------------------------------------------------------------------------------
+  Auto-Drafted Responses: 40
+  Accepted: 31 (77.5%)
+  Edited: 7 (17.5%)
+  Rejected: 2 (5.0%)
+  Acceptance Rate: 77.5%
+  Goal: 80%
+  Status: ✗ GOAL NOT MET
+
+BY CATEGORY PERFORMANCE
+--------------------------------------------------------------------------------
+
+  UNKNOWN:
+    Auto-Drafted: 40
+    Acceptance Rate: 77.5%
+    Edit Rate: 17.5%
+    Rejection Rate: 5.0%
+
+TREND ANALYSIS (Time Windows)
+--------------------------------------------------------------------------------
+Window | Auto-Drafted | Acceptance % | Avg Quality | Avg Confidence
+--------------------------------------------------------------------------------
+   0    |      5       | 100.0%     | 0.848      | 0.812
+   1    |      4       | 100.0%     | 0.801      | 0.844
+   2    |      7       |  71.4%     | 0.818      | 0.792
+   3    |      9       |  77.8%     | 0.800      | 0.832
+   4    |      8       |  75.0%     | 0.815      | 0.799
+   5    |      7       |  57.1%     | 0.816      | 0.878
+
+RECOMMENDATIONS
+--------------------------------------------------------------------------------
+  • Acceptance rate is 77.5%, below 80% goal. Review rejected responses to improve quality or adjust confidence thresholds.
+================================================================================
